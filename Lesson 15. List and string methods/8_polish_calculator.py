@@ -1,7 +1,7 @@
 symbols = input().split()
 numbers = []
 for symbol in symbols:
-    if symbol.isdigit():
+    if len(symbol) > 1 or symbol.isdigit():
         numbers.append(int(symbol))
     else:
         if symbol == '+':

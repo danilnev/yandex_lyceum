@@ -1,4 +1,4 @@
-number = int(input()[1])
+number = int(input()[1:])
 strings = [input() for i in range(number)]
 for string in strings:
     if '#' in string:
