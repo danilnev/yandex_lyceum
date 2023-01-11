@@ -3,21 +3,20 @@ import random
 
 
 def prepare_and_start():
-    global player, exit, fires, enemies
+    global player, exit, fires, enemies, count_fire, count_enemy
+    count_fire, count_enemy = 0, 0
     canvas.delete('all')
     player_pos = (random.randint(0, N_X - 1) * step,
                   random.randint(0, N_Y - 1) * step)
-    player = canvas.create_oval(player_pos,
-                                player_pos[0] + step, player_pos[1] + step,
-                                fill='green')
     exit_pos = (random.randint(0, N_X - 1) * step,
                 random.randint(0, N_Y - 1) * step)
+    player = canvas.create_image(player_pos,
+                                 image=player_pic, anchor='nw')
     while exit_pos == canvas.coords(player):
         exit_pos = (random.randint(0, N_X - 1) * step,
                     random.randint(0, N_Y - 1) * step)
-    exit = canvas.create_oval(exit_pos,
-                              exit_pos[0] + step, exit_pos[1] + step,
-                              fill='yellow')
+    exit = canvas.create_image(exit_pos,
+                               image=exit_pic, anchor='nw')
     N_FIRES = 6
     fires = []
     for i in range(N_FIRES):
@@ -39,9 +38,8 @@ def prepare_and_start():
             else:
                 fire_pos = (random.randint(0, N_X - 1) * step,
                             random.randint(0, N_Y - 1) * step)
-        fire = canvas.create_oval(fire_pos,
-                                  fire_pos[0] + step, fire_pos[1] + step,
-                                  fill='red')
+        fire = canvas.create_image(fire_pos,
+                                   image=fire_pic, anchor='nw')
         fires.append(fire)
     N_ENEMIES = 4
     enemies = []
@@ -68,9 +66,8 @@ def prepare_and_start():
             else:
                 enemy_pos = (random.randint(0, N_X - 1) * step,
                              random.randint(0, N_Y - 1) * step)
-        enemy = canvas.create_oval(enemy_pos,
-                                  enemy_pos[0] + step, enemy_pos[1] + step,
-                                  fill='orange')
+        enemy = canvas.create_image(enemy_pos,
+                                    image=enemy_pic, anchor='nw')
         enemies.append(enemy)
     label.config(text='Найти выход:')
     label.pack()
@@ -130,6 +127,7 @@ def check_move():
 
 
 def key_pressed(event):
+    global count_enemy, count_fire
     if event.keysym == 'Up':
         move_wrap(player, (0, -step))
     elif event.keysym == 'Down':
@@ -138,14 +136,24 @@ def key_pressed(event):
         move_wrap(player, (step, 0))
     elif event.keysym == 'Left':
         move_wrap(player, (-step, 0))
-    elif event.keysym == 'k':
-        random_enemy = random.choice(enemies)
-        enemies.remove(random_enemy)
-        canvas.delete(random_enemy)
-    elif event.keysym == 'p':
-        random_fire = random.choice(fires)
-        fires.remove(random_fire)
-        canvas.delete(random_fire)
+    elif event.keysym == 'k' or event.keysym == 'л':
+        if count_enemy < 2:
+            random_enemy = random.choice(enemies)
+            enemies.remove(random_enemy)
+            canvas.delete(random_enemy)
+            count_enemy += 1
+        else:
+            label_end = tkinter.Label(master, text='Вы исчерпали лимит попыток!')
+            label_end.pack()
+    elif event.keysym == 'p' or event.keysym == 'з':
+        if count_fire < 3:
+            random_fire = random.choice(fires)
+            fires.remove(random_fire)
+            canvas.delete(random_fire)
+            count_fire += 1
+        else:
+            label_end = tkinter.Label(master, text='Вы исчерпали лимит попыток!')
+            label_end.pack()
     for enemy in enemies:
         move = to_player(enemy)
         move_wrap(enemy, move)
@@ -156,9 +164,13 @@ master = tkinter.Tk()
 step = 60
 N_X = 10
 N_Y = 10
+player_pic = tkinter.PhotoImage(file='images/player_pic.gif')
+exit_pic = tkinter.PhotoImage(file='images/exit_pic.gif')
+fire_pic = tkinter.PhotoImage(file='images/fire_pic.gif')
+enemy_pic = tkinter.PhotoImage(file='images/enemy_pic.gif')
 label = tkinter.Label(master, text='Найди выход')
-label_k = tkinter.Label(master, text='k (kill) - убить случайного врага')
-label_p = tkinter.Label(master, text='p (put on) - потушить случайный пожар')
+label_k = tkinter.Label(master, text='k (kill) - убить случайного врага (лимит: 3)')
+label_p = tkinter.Label(master, text='p (put on) - потушить случайный пожар (лимит: 3)')
 label.pack()
 label_k.pack()
 label_p.pack()

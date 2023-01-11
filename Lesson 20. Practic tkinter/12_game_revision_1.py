@@ -7,17 +7,15 @@ def prepare_and_start():
     canvas.delete('all')
     player_pos = (random.randint(0, N_X - 1) * step,
                   random.randint(0, N_Y - 1) * step)
-    player = canvas.create_oval(player_pos,
-                                player_pos[0] + step, player_pos[1] + step,
-                                fill='green')
     exit_pos = (random.randint(0, N_X - 1) * step,
                 random.randint(0, N_Y - 1) * step)
+    player = canvas.create_image(player_pos,
+                                 image=player_pic, anchor='nw')
     while exit_pos == canvas.coords(player):
         exit_pos = (random.randint(0, N_X - 1) * step,
                     random.randint(0, N_Y - 1) * step)
-    exit = canvas.create_oval(exit_pos,
-                              exit_pos[0] + step, exit_pos[1] + step,
-                              fill='yellow')
+    exit = canvas.create_image(exit_pos,
+                               image=exit_pic, anchor='nw')
     N_FIRES = 6
     fires = []
     for i in range(N_FIRES):
@@ -39,9 +37,8 @@ def prepare_and_start():
             else:
                 fire_pos = (random.randint(0, N_X - 1) * step,
                             random.randint(0, N_Y - 1) * step)
-        fire = canvas.create_oval(fire_pos,
-                                  fire_pos[0] + step, fire_pos[1] + step,
-                                  fill='red')
+        fire = canvas.create_image(fire_pos,
+                                   image=fire_pic, anchor='nw')
         fires.append(fire)
     N_ENEMIES = 4
     enemies = []
@@ -68,9 +65,8 @@ def prepare_and_start():
             else:
                 enemy_pos = (random.randint(0, N_X - 1) * step,
                              random.randint(0, N_Y - 1) * step)
-        enemy = canvas.create_oval(enemy_pos,
-                                  enemy_pos[0] + step, enemy_pos[1] + step,
-                                  fill='orange')
+        enemy = canvas.create_image(enemy_pos,
+                                    image=enemy_pic, anchor='nw')
         enemies.append((enemy, random.choice([always_right, random_move])))
     label.config(text='Найти выход:')
     label.pack()
@@ -135,6 +131,10 @@ master = tkinter.Tk()
 step = 60
 N_X = 10
 N_Y = 10
+player_pic = tkinter.PhotoImage(file='images/player_pic.gif')
+exit_pic = tkinter.PhotoImage(file='images/exit_pic.gif')
+fire_pic = tkinter.PhotoImage(file='images/fire_pic.gif')
+enemy_pic = tkinter.PhotoImage(file='images/enemy_pic.gif')
 label = tkinter.Label(master, text='Найди выход')
 label.pack()
 canvas = tkinter.Canvas(master, bg='blue', height=N_X * step, width=N_Y * step)
