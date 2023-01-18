@@ -6,6 +6,5 @@ def golden_ratio(i):
 
 
 # golden_ratio(10)
-# golden_ratio(1)
 # golden_ratio(2)
 # golden_ratio(4)
