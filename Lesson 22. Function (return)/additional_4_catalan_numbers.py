@@ -6,7 +6,7 @@ def fac(num: int) -> int:
 
 
 def catalan(n: int) -> int:
-    return fac(2 * (n)) / (fac(n + 1) * fac(n))
+    return fac(2 * n) // (fac(n + 1) * fac(n))
 
 
 # print(fac(3))
