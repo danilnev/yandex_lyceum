@@ -2,7 +2,23 @@ def make_shades(alley: list[int], k: int) -> list[bool]:
     alley_places = [False for i in range(len(alley))]
     if k > 0:
         for i in range(len(alley)):
-            pass
+            if alley[i] != 0:
+                metres = k * alley[i] + 1
+                for j in range(0, metres):
+                    if j + i >= len(alley):
+                        break
+                    alley_places[j + i] = True
+    elif k == 0:
+        for i in range(len(alley)):
+            if alley[i] > 0:
+                alley_places[i] = True
+    elif k < 0:
+        for i in range(len(alley)):
+            if alley[i] != 0:
+                metres = abs(k) * alley[i] + 1
+                for j in range(0, metres):
+                    if (i - j) >= 0:
+                        alley_places[i - j] = True
     return alley_places
 
 
@@ -23,9 +39,3 @@ def main():
         print('Обгорел')
     else:
         print('Тени достаточно')
-
-
-# print(make_shades([0, 0, 0, 4, 0, 1, 0, 0, 0, 0, 0, 2, 0, 0, 0, 3, 0], 1))
-# print(calculate_sunny_length([True, True, True, True, True, True, False, False, False, True, True, True, True, True,
-#                               True, True, False]))
-# main()
