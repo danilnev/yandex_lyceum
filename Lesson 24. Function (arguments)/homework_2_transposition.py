@@ -1,5 +1,5 @@
 def transpose(matrix):
-    transposition_field = [[' ' for i in range(4)] for j in range(4)]
+    transposition_field = [[' ' for i in range(len(matrix))] for j in range(len(matrix[0]))]
     for i in range(len(matrix)):
         for j in range(len(matrix[0])):
             transposition_field[j][i] = matrix[i][j]
