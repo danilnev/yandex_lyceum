@@ -1,0 +1,2 @@
+fractal = []
+print(fractal)
