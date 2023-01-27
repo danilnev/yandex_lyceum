@@ -1,4 +1,5 @@
-fractal = [[[], []], [[], []], [[], []]]
-for i in range(3):
-    fractal[i][0] = fractal
-    fractal[i][1] = fractal
+white, black = [], []
+white.extend([black for i in range(2)])
+black.extend([white for i in range(3)])
+wb_tree = black
+# print(wb_tree)
