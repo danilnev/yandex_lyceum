@@ -7,16 +7,22 @@ def encrypt_caesar(msg: str, shift=3):
                 code = ord(symbol)
                 code += shift
                 if code < 1040:
-                    code = 1071 - (1040 % code) + 1
+                    if 1040 - code == 32:
+                        code = 1040
+                    else:
+                        code = 1071 - ((1040 - code) % 32) + 1
                 elif code > 1071:
-                    code = 1040 + (code % 1071) - 1
+                    code = 1040 + ((code - 1071) % 32) - 1
             elif symbol.islower():
                 code = ord(symbol)
                 code += shift
                 if code < 1072:
-                    code = 1103 - (1072 % code) + 1
+                    if 1072 - code == 32:
+                        code = 1072
+                    else:
+                        code = 1103 - ((1072 - code) % 32) + 1
                 elif code > 1103:
-                    code = 1072 + (code % 1103) - 1
+                    code = 1072 + ((code - 1103) % 32) - 1
             result += chr(code)
         else:
             result += symbol
