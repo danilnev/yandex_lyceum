@@ -4,7 +4,7 @@ import string
 
 def generate_password(m):
     global abc
-    password = ''.join(random.choices(abc, k=m))
+    password = ''.join(random.sample(abc, k=m))
     while len(list(filter(lambda x: x.isdigit(), password))) < 1 or \
             len(list(filter(lambda x: x in string.ascii_lowercase, password))) < 1 or \
             len(list(filter(lambda x: x in string.ascii_uppercase, password))) < 1:
@@ -23,4 +23,4 @@ def main(n, m):
 
 
 abc = 'abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789'
-# print(*main(10, 100), sep="\n")
+# print("Случайный пароль из 7 символов:", generate_password(7))
