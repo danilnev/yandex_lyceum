@@ -1,6 +1,5 @@
 from random import shuffle
 from copy import deepcopy
-from pprint import pprint
 
 
 def make_assumptions(sudoku):
@@ -32,7 +31,8 @@ def solve(sudoku):
 
 
 def solve_sudoku(field):
-    return solve(field)
+    return '\n'.join(map(lambda x: ''.join(map(str, x)), solve(field)))
 
 
-print(solve_sudoku([[0, 0, 0, 0], [0, 0, 2, 0], [0, 1, 0, 0], [3, 0, 0, 4]]))
+string = [list(map(int, list(input().rstrip()))) for i in range(4)]
+print(solve_sudoku(string))
