@@ -17,4 +17,4 @@ def makeanagliph(filename, delta):
     img.save('res.jpg')
 
 
-makeanagliph('image.jpg', 3)
+makeanagliph('image.jpg', 10)
