@@ -11,7 +11,6 @@ words = sorted([input().lower() for i in range(num)])
 result = dict()
 for word in words:
     anogram = set(filter(lambda x: x != word and set(x) == set(word), words))
-    print(result.values())
     if word not in linear(list(result.values())):
         result[word] = list(anogram)
     else:
