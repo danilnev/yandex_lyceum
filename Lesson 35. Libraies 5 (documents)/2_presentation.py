@@ -33,5 +33,9 @@ choices(population, weights=None, *, cum_weights=None, k=1) method of random.Ran
 for key in data:
     slide = doc.slides.add_slide(layout)
     slide.placeholders[0].text = key
+
     slide.placeholders[1].text = data[key]
+    ph = slide.placeholders
+    for p in ph:
+        p.text_frame.fit_text(font_family='Courier New')
 doc.save('doc.pptx')

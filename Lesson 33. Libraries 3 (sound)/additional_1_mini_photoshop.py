@@ -1,24 +1,26 @@
 from PIL import Image
 
 
-def temperature(size):
+def temperature(pxls, i, j, ugrade_size=100):
     '''Изменяет температуру изображения'''
-    img = Image.open('image.jpg')
-    pxls = img.load()
-    for i in range(img.size[0]):
-        for j in range(img.size[1]):
-            if size >= 0:
-                pxls[i, j] = pxls[i, j][0] + size, pxls[i, j][1], pxls[i, j][2]
+    for i in range(10):
+        for j in range(10):
+            if ugrade_size >= 0:
+                pxls[i, j] = pxls[i, j][0] + ugrade_size, pxls[i, j][1], pxls[i, j][2]
             else:
-                pxls[i, j] = pxls[i, j][0], pxls[i, j][1], pxls[i, j][2] + abs(size)
-    img.save('res.jpg')
+                pxls[i, j] = pxls[i, j][0], pxls[i, j][1], pxls[i, j][2] + abs(ugrade_size)
+    return pxls
 
 
-def saturation(size):
+def saturation(pxls, i, j, upgrade_size=100):
     '''Изменяет контрастность изображения'''
-    img = Image.open('image.jpg')
-    pxls = img.load()
-    for i in range(img.size[0]):
-        for j in range(img.size[1]):
-            pxls[i, j] = pxls[i, j][0] + size, pxls[i, j][1] + size, pxls[i, j][2] + size
-    img.save('res.jpg')
+    for i in range(10):
+        for j in range(10):
+            pxls[i, j] = pxls[i, j][0] + upgrade_size, pxls[i, j][1] + upgrade_size, pxls[i, j][2] + upgrade_size
+    return pxls
+
+
+# img = Image.open('image.png')
+# pixels = img.load()
+# pixels = saturation(pixels, 2, 3)
+# img.save('image.png')
