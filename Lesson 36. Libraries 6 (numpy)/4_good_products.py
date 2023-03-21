@@ -1,41 +1,17 @@
 import numpy as np
 
-
-table = np.genfromtxt('ABBREV.csv', delimiter=';', dtype=None, names=True, encoding="utf8")
-best_call = []
-maxx_call = 0
-best_good = []
-minn_good = None
-best_prote = []
-maxx_prote = 0
-vitamin = ()
-
-for product in table:
-    if product[3] > maxx_call:
-        best_call.clear()
-        best_call.append(product[1])
-        maxx_call = product[3]
-    elif product[3] == maxx_call:
-        best_call.append(product[1])
-
-    if minn_good is None or product[9] < minn_good:
-        best_good.clear()
-        best_good.append(product[1])
-        minn_good = product[9]
-    elif product[9] == minn_good:
-        best_good.append(product[1])
-
-    if product[4] > maxx_prote:
-        best_prote.clear()
-        best_prote.append(product[1])
-        maxx_prote = product[4]
-    elif product[4] == maxx_prote:
-        best_prote.append(product[1])
-
-    if vitamin == () or product[20] > vitamin[1]:
-        vitamin = (product[1], product[20])
-
-print(best_call[-1])
-print(best_good[0])
-print(best_prote[-1])
-print(vitamin[0])
+table = np.genfromtxt('ABBREV.csv', delimiter=';', names=[
+    'NDB_No', 'Shrt_Desc', 'Water_(g)', 'Energ_Kcal', 'Protein', 'Lipid_Tot_(g)', 'Ash_(g)', 'Carbohydrt_(g)',
+    'Fiber_TD_(g)', 'Sugar_Tot', 'Calcium_(mg)', 'Iron_(mg)', 'Magnesium_(mg)', 'Phosphorus_(mg)',
+    'Potassium_(mg)', 'Sodium_(mg)', 'Zinc_(mg)', 'Copper_mg)', 'Manganese_(mg)', 'Selenium_(µg)', 'Vit_C',
+    'Thiamin_(mg)', 'Riboflavin_(mg)', 'Niacin_(mg)', 'Panto_Acid_mg)', 'Vit_B6_(mg)', 'Folate_Tot_(µg)',
+    'Folic_Acid_(µg)', 'Food_Folate_(µg)', 'Folate_DFE_(µg)', 'Choline_Tot_ (mg)', 'Vit_B12_(µg)', 'Vit_A_IU',
+    'Vit_A_RAE', 'Retinol_(µg)', 'Alpha_Carot_(µg)', 'Beta_Carot_(µg)', 'Beta_Crypt_(µg)', 'Lycopene_(µg)',
+    'Lut+Zea_ (µg)', 'Vit_E_(mg)', 'Vit_D_µg', 'Vit_D_IU', 'Vit_K_(µg)', 'FA_Sat_(g)', 'FA_Mono_(g)', 'FA_Poly_(g)',
+    'Cholestrl_(mg)', 'GmWt_1', 'GmWt_Desc1', 'GmWt_2', 'GmWt_Desc2', 'Refuse_Pct'
+], dtype=None, encoding="utf8")
+best_call = np.sort(table[1:], axis=0, order='Energ_Kcal')[-1]
+best_good = np.sort(table[1:], axis=0, order='Sugar_Tot')[0]
+best_prote = np.sort(table[1:], axis=0, order='Protein')[-1]
+best_vitamin = np.sort(table[1:], axis=0, order='Vit_C')[0]
+print(best_call[1], best_good[1], best_prote[1], best_vitamin[1], sep='\n')
