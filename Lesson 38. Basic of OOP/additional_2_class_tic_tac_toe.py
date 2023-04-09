@@ -18,24 +18,15 @@ class TicTacToeBoard:
         return list(map(lambda x: list(x), self.board))
 
     def check_field(self):
-        if [self.board[0, 0], self.board[1, 1], self.board[2, 2]] == ['X', 'X', 'X'] or \
-                [self.board[0, 2], self.board[1, 1], self.board[2, 0]] == ['X', 'X', 'X'] or \
-                [self.board[0, 0], self.board[0, 1], self.board[0, 2]] == ['X', 'X', 'X'] or \
-                [self.board[1, 0], self.board[1, 1], self.board[1, 2]] == ['X', 'X', 'X'] or \
-                [self.board[2, 0], self.board[2, 1], self.board[2, 2]] == ['X', 'X', 'X'] or \
-                [self.board[0, 0], self.board[1, 0], self.board[2, 0]] == ['X', 'X', 'X'] or \
-                [self.board[0, 1], self.board[1, 1], self.board[2, 1]] == ['X', 'X', 'X'] or \
-                [self.board[0, 2], self.board[1, 2], self.board[2, 2]] == ['X', 'X', 'X']:
-            return 'X'
-        elif [self.board[0, 0], self.board[1, 1], self.board[2, 2]] == ['0', '0', '0'] or \
-                [self.board[0, 2], self.board[1, 1], self.board[2, 0]] == ['0', '0', '0'] or \
-                [self.board[0, 0], self.board[0, 1], self.board[0, 2]] == ['0', '0', '0'] or \
-                [self.board[1, 0], self.board[1, 1], self.board[1, 2]] == ['0', '0', '0'] or \
-                [self.board[2, 0], self.board[2, 1], self.board[2, 2]] == ['0', '0', '0'] or \
-                [self.board[0, 0], self.board[1, 0], self.board[2, 0]] == ['0', '0', '0'] or \
-                [self.board[0, 1], self.board[1, 1], self.board[2, 1]] == ['0', '0', '0'] or \
-                [self.board[0, 2], self.board[1, 2], self.board[2, 2]] == ['0', '0', '0']:
-            return '0'
+        for i in range(3):
+            if self.board[i, 0] == self.board[i, 1] == self.board[i, 2] != '-':
+                return self.board[i, 0]
+            if self.board[0, i] == self.board[1, i] == self.board[2, i] != '-':
+                return self.board[0, i]
+        if self.board[0, 0] == self.board[1, 1] == self.board[2, 2] != '-':
+            return self.board[0, 0]
+        if self.board[0, 2] == self.board[1, 1] == self.board[2, 0] != '-':
+            return self.board[0, 2]
         board = self.board.reshape((1, 9))[0]
         if len(list(filter(lambda x: x == '-', board))) == 0:
             return 'D'
@@ -69,14 +60,12 @@ class TicTacToeBoard:
 board = TicTacToeBoard()
 print(*board.get_field(), sep="\n")
 print(board.make_move(1, 1))
-board.new_game()
 print(*board.get_field(), sep="\n")
 print(board.make_move(1, 1))
 print(board.make_move(1, 2))
 print(*board.get_field(), sep="\n")
-print(board.make_move(3, 1))
+print(board.make_move(2, 1))
 print(board.make_move(2, 2))
 print(board.make_move(3, 1))
-print(board.make_move(2, 3))
-print(board.make_move(3, 2))
+print(board.make_move(2, 2))
 print(*board.get_field(), sep="\n")
