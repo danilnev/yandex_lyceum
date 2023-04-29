@@ -25,31 +25,44 @@ def print_board(board):  # Распечатать доску в текстово
 
 
 def main():
-    # Создаём шахматную доску
     board = Board()
-    # Цикл ввода команд игроков
-    while True:
-        # Выводим положение фигур на доске
-        print_board(board)
-        # Подсказка по командам
-        print('Команды:')
-        print('    exit                               -- выход')
-        print('    move <row> <col> <row1> <row1>     -- ход из клетки (row, col)')
-        print('                                          в клетку (row1, col1)')
-        # Выводим приглашение игроку нужного цвета
-        if board.current_player_color() == WHITE:
-            print('Ход белых:')
-        else:
-            print('Ход чёрных:')
-        command = input()
-        if command == 'exit':
-            break
-        move_type, row, col, row1, col1 = command.split()
-        row, col, row1, col1 = int(row), int(col), int(row1), int(col1)
-        if board.move_piece(row, col, row1, col1):
-            print('Ход успешен')
-        else:
-            print('Координаты некорректы! Попробуйте другой ход!')
+    board.field = [([None] * 8) for i in range(8)]
+    board.field[6][0] = Pawn(WHITE)
+    board.field[6][1] = Pawn(WHITE)
+    board.field[6][3] = Pawn(WHITE)
+    board.field[6][4] = Pawn(WHITE)
+
+    board.field[1][1] = Pawn(BLACK)
+    board.field[1][4] = Pawn(BLACK)
+    board.field[1][5] = Pawn(BLACK)
+    board.field[1][7] = Pawn(BLACK)
+
+    print('before:')
+    for row in range(7, -1, -1):
+        for col in range(8):
+            char = board.cell(row, col)[1]
+            print(char.replace(' ', '-'), end='')
+        print()
+    print()
+
+    board.move_and_promote_pawn(6, 0, 7, 0, 'Q')
+    board.move_and_promote_pawn(1, 1, 0, 1, 'R')
+
+    board.move_and_promote_pawn(6, 1, 7, 1, 'N')
+    board.move_and_promote_pawn(1, 4, 0, 4, 'Q')
+
+    board.move_and_promote_pawn(6, 3, 7, 3, 'B')
+    board.move_and_promote_pawn(1, 5, 0, 5, 'N')
+
+    board.move_and_promote_pawn(6, 4, 7, 4, 'R')
+    board.move_and_promote_pawn(1, 7, 0, 7, 'B')
+
+    print('8 turns after:')
+    for row in range(7, -1, -1):
+        for col in range(8):
+            char = board.cell(row, col)[1]
+            print(char.replace(' ', '-'), end='')
+        print()
 
 
 def correct_coords(row, col):
@@ -128,6 +141,22 @@ class Board:
         self.color = opponent(self.color)
         return True
 
+    def move_and_promote_pawn(self, row, col, row1, col1, char):
+        figures = {'Q': Queen, 'R': Rook, 'B': Bishop, 'N': Knight}
+        piece = self.field[row][col]
+        if not isinstance(piece, Pawn):
+            return False
+        color = self.field[row][col].get_color()
+        if (piece.can_move(self, row, col, row1, col1) and self.field[row1][col1] is None) or \
+                (piece.can_attack(self, row, col, row1, col1) and
+                 (not self.field[row1][col1] is None) and
+                 self.field[row1][col1].get_color() != color):
+            self.field[row][col] = None
+            self.field[row1][col1] = figures[char](color)
+            self.color = opponent(color)
+            return True
+        return False
+
 
 class Rook:
 
@@ -199,6 +228,7 @@ class Pawn:
                 and row + 2 * direction == row1
                 and board.field[row + direction][col] is None):
             return True
+
         return False
 
     def can_attack(self, board, row, col, row1, col1):
@@ -317,16 +347,6 @@ class Bishop:
     def can_attack(self, board, row, col, row1, col1):
         return self.can_move(self, board, row, col, row1, col1)
 
-
-# __name__ -- специальная переменная, в которую python записывает имя
-# файла (без .py), если этот файл импортирован из друго, и "__main__", если
-# этот файл запущен как программа.
-# Другими словами, следующие две строчки:
-#   запустят функцию main, если файл запущен как программа;
-#   не сделают ничего, если этот файл импортирован из другого.
-# Второй случай реализуется, например, когда тестирующий скрипт импортирует
-# классы из вашего скрипта. В этом случае функця main не будет работать
-# и портить вывод теста.
 
 if __name__ == "__main__":
     main()
