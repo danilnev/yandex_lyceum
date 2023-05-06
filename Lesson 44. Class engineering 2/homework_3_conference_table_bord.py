@@ -94,10 +94,10 @@ while True:
     if command == 'help':
         help()
     elif command == 'new conference':
-        name = input(f'Введите название: ')
+        name = input('Введите название: ')
         while name in confs:
             print('Конференция с таким именем уже существует!')
-            name = input(f'Введите название: ')
+            name = input('Введите название: ')
         begin_date = input('Введите дату начала в формате "yyyy:mm:dd:hh:mm": ')
         while not correct_date(begin_date):
             print('Дата указана в неверном формате.')
@@ -150,8 +150,9 @@ while True:
         )
     elif command == 'confs':
         print(
-            *list(map(lambda x: f'{confs[x].get_name()}: {confs[x].begin} - {confs[x].begin + confs[x].get_full_time()}, место: '
-                                f'{confs[x].get_place()}, кол-во докладов: {len(confs[x].get_reports())}', confs)),
+            *list(map(lambda x: f'{confs[x].get_name()}: {confs[x].begin} - {confs[x].begin + confs[x].get_full_time()}'
+                                f', место: {confs[x].get_place()}, кол-во докладов: {len(confs[x].get_reports())}',
+                      confs)),
             sep='\n'
         )
     elif command == 'exit':
